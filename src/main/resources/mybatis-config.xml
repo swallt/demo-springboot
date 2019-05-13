@@ -8,4 +8,8 @@
         <setting name="aggressiveLazyLoading" value="false"/>
         <setting name="logImpl" value="SLF4J"/>
     </settings>
+    <!--cat监控 监控sql执行情况-->
+    <!--<plugins>-->
+        <!--<plugin interceptor="com.example.demospringboot.cat.CatMybatisPlugin"></plugin>-->
+    <!--</plugins>-->
 </configuration>

@@ -20,8 +20,8 @@ public interface UserMapper {
     int count(@Param("name") String name);
 
     @Update({"update user" +
-            "set email = #{email,jdbcType=VARCHAR}" +
-            "where id = #{id}"})
+            " set email = #{email,jdbcType=VARCHAR}" +
+            " where id = #{id}"})
     int updateById(User user);
 
     @Select({

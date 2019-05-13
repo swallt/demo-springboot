@@ -1,6 +1,9 @@
 package com.example.demospringboot.api;
 
 import com.alibaba.fastjson.JSONObject;
+import com.dianping.cat.Cat;
+import com.dianping.cat.message.Event;
+import com.dianping.cat.message.Transaction;
 import com.example.demospringboot.dal.bean.User;
 import com.example.demospringboot.dal.dao.UserMapper;
 import org.apache.commons.collections4.MapUtils;
@@ -32,7 +35,14 @@ public class DemoExecutor {
     private UserMapper userMapper;
 
     public void query(String id){
-        RestTemplate restTemplate = new RestTemplate();
+        Transaction t = Cat.newTransaction("URL","demoquery");
+
+        try {
+            Cat.logEvent("URL.Method","query",Event.SUCCESS," ");
+            Cat.logMetricForCount("metric.key");
+            Cat.logMetricForDuration("metric.key", 5);
+
+             /* RestTemplate restTemplate = new RestTemplate();
         String url = "";
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
@@ -42,11 +52,21 @@ public class DemoExecutor {
         map.add("sign",authpass);
         HttpEntity<MultiValueMap<String,String>> request = new HttpEntity<>(map,headers);
         ResponseEntity<String> responseEntity = restTemplate.postForEntity(url,request,String.class);
-        JSONObject jsonObject = JSONObject.parseObject(responseEntity.getBody());
-        User user = new User();
-        user.setEmail(jsonObject.getString("eamil"));
-        user.setId(id);
-        userMapper.updateById(user);
+        JSONObject jsonObject = JSONObject.parseObject(responseEntity.getBody());*/
+            User user = new User();
+//        user.setEmail(jsonObject.getString("eamil"));
+            user.setEmail("aaa@163.com");
+            user.setId(id);
+            userMapper.updateById(user);
+
+            t.setStatus(Transaction.SUCCESS);
+        } catch (Exception e){
+            t.setStatus(e);
+            Cat.logError(e);
+        } finally {
+            t.complete();
+        }
+
 
     }
 
